@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Panjabi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">BrandName</div>
+    <div class="header-right">
+      <input type="text" placeholder="Search Panjabi..." class="search-bar">
+      <div class="cart-icon" id="cart-icon">
+        🛒 <span id="cart-count">0</span>
+      </div>
+    </div>
+  </header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-overlay"></div> <!-- darker overlay -->
+  <div class="hero-content">
+    <div class="hero-left">
+      <h1>Premium Panjabi</h1>
+      <p>Elegance. Royalty. Tradition.</p>
+      <button onclick="scrollToProducts()">Shop Now</button>
+    </div>
+    <div class="hero-right">
+      <img src="image/hero_img2-removebg-preview.png" alt="Model Panjabi">
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY -->
+<section class="categories">
+    <div class="category" data-filter="all">All</div>
+    <div class="category" data-filter="wedding">Wedding</div>
+    <div class="category" data-filter="casual">Casual</div>
+    <div class="category" data-filter="festive">Festive</div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products"></section>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="close-cart">✖</button>
+    </div>
+
+    <div class="cart-items" id="cart-items"></div>
+
+    <div class="cart-footer">
+        <div>Subtotal: ৳ <span id="subtotal">0</span></div>
+        <button id="checkout-btn">Proceed to Checkout</button>
+    </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-modal" id="checkout-modal">
+    <div class="modal-content">
+        <h3>Place Your Order</h3>
+        <input type="text" id="name" placeholder="Your Name">
+        <input type="tel" id="phone" placeholder="Phone Number">
+        <textarea id="address" placeholder="Address"></textarea>
+        <select id="payment">
+            <option value="COD">Cash on Delivery</option>
+        </select>
+        <button id="place-order">Place Order</button>
+        <button id="close-modal">Cancel</button>
+    </div>
+</div>
+
+<!-- ORDER SUCCESS POPUP -->
+<div class="order-success-modal" id="order-success-modal">
+    <div class="success-content">
+      <div class="tick">✔️</div>
+      <h3>Order Placed Successfully!</h3>
+      <p>Returning to home in <span id="countdown">5</span> seconds...</p>
+    </div>
+  </div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="product-detail-modal" id="product-detail-modal">
+    <div class="detail-content">
+      <button id="close-detail-modal">✖</button>
+      <div class="detail-images">
+        <img id="main-detail-img" src="" alt="Product Image">
+        <div class="detail-thumbs" id="detail-thumbs"></div>
+      </div>
+      <h3 id="detail-name"></h3>
+      <p id="detail-description"></p>
+      <div class="detail-options">
+        <label for="detail-size">Select Size:</label>
+        <div id="detail-size"></div>
+      </div>
+      <p class="detail-price">৳ <span id="detail-price"></span></p>
+      <div class="detail-buttons">
+        <button id="detail-add-to-cart">Add to Cart</button>
+        <button id="detail-buy-now">Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+      <p>© 2026 Premium Panjabi. All rights reserved.</p>
+      <p>Follow us: 
+        <a href="#">Facebook</a> | 
+        <a href="#">Instagram</a> | 
+        <a href="#">TikTok</a>
+      </p>
+    </div>
+  </footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
