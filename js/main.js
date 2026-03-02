@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             name:"Royal Wedding Panjabi",
             price:4500,
             category:"wedding",
-            image:"image/panjabi1.jfif",
-            images:["image/panjabi1.jfif","image/panjabi1_alt1.jfif","image/panjabi1_alt2.jfif"],
+            image:"image/panjabi1.jpg",
+            images:["image/panjabi1.jpg","image/panjabi1_alt1.jfif","image/panjabi1_alt2.jfif"],
             description:"Luxurious silk panjabi with intricate embroidery.",
             sizes:["S","M","L","XL"]
         },
@@ -26,11 +26,42 @@ document.addEventListener('DOMContentLoaded', ()=>{
             name:"Festive Silk Panjabi",
             price:3800,
             category:"festive",
-            image:"image/panjabi1.jfif",
-            images:["image/panjabi1.jfif"],
+            image:"image/panjabi3.jpg",
+            images:["image/panjabi3.jpg"],
             description:"Festive panjabi made from premium silk.",
             sizes:["S","M","L","XL"]
         },
+        {
+            id:4,
+            name:"Festive Silk Panjabi",
+            price:3800,
+            category:"festive",
+            image:"image/panjabi4.jpg",
+            images:["image/panjabi4.jpg"],
+            description:"Festive panjabi made from premium silk.",
+            sizes:["S","M","L","XL"]
+        },
+        {
+            id:5,
+            name:"Festive Silk Panjabi",
+            price:3800,
+            category:"festive",
+            image:"image/panjabi5.jpg",
+            images:["image/panjabi5.jpg"],
+            description:"Festive panjabi made from premium silk.",
+            sizes:["S","M","L","XL"]
+        },
+        {
+            id:6,
+            name:"Festive Silk Panjabi",
+            price:3800,
+            category:"festive",
+            image:"image/panjabi6.jpg",
+            images:["image/panjabi6.jpg"],
+            description:"Festive panjabi made from premium silk.",
+            sizes:["S","M","L","XL"]
+        },
+        
     ];
 
     const productsContainer = document.getElementById('products');
@@ -188,35 +219,93 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     closeDetailModal.onclick = ()=> productDetailModal.style.display='none';
 
-    // ================= UPDATE CART =================
-    function updateCart(){
-        cartItemsContainer.innerHTML='';
-        let subtotal=0;
+    
+    // =============== CHECK OUT SUMMARY ==========
+    function updateCheckoutSummary(){
+
+        const checkoutProducts = document.getElementById('checkout-products');
+        checkoutProducts.innerHTML = '';
+    
+        let subtotal = 0;
+    
         cart.forEach(item=>{
-            subtotal += item.price*item.qty;
-            cartItemsContainer.innerHTML+=`
-                <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" class="mini-img">
-                    <div class="item-info">
-                        <p class="item-name">${item.name}</p>
-                        <p class="item-qty">Qty: ${item.qty}</p>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem(${item.id})">✖</button>
+            subtotal += item.price * item.qty;
+    
+            checkoutProducts.innerHTML += `
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+                    <span>${item.name} (${item.size}) × ${item.qty}</span>
+                    <span>৳ ${item.price * item.qty}</span>
                 </div>
             `;
         });
-        const footer = document.querySelector('.cart-footer');
-        footer.innerHTML = `
-            <div class="subtotal-wrapper">
-                <div class="subtotal-label">Subtotal</div>
-                <div class="subtotal-amount">৳ <span id="subtotal">${subtotal}</span></div>
-            </div>
-            <button id="checkout-btn">Proceed to Checkout</button>
-        `;
-        document.getElementById('cart-count').textContent = cart.reduce((t,i)=>t+i.qty,0);
-        localStorage.setItem('cart', JSON.stringify(cart));
+    
+        const district = document.getElementById('district').value;
+        let delivery = 0;
+    
+        if(district==='dhaka') delivery=60;
+        else if(district==='chattogram') delivery=120;
+        else if(district) delivery=150;
+    
+        document.getElementById('checkout-subtotal').innerText=subtotal;
+        document.getElementById('checkout-delivery').innerText=delivery;
+        document.getElementById('checkout-total').innerText=subtotal+delivery;
     }
+    
+    document.getElementById('district').addEventListener('change', updateCheckoutSummary);
+    
+  // ================= UPDATE CART =================
+function updateCart(){
+    cartItemsContainer.innerHTML='';
+    let subtotal=0;
+    cart.forEach(item=>{
+        subtotal += item.price*item.qty;
+        cartItemsContainer.innerHTML+=`
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" class="mini-img">
+                <div class="item-info">
+                    <p class="item-name">${item.name} ${item.size ? '('+item.size+')' : ''}</p>
+                </div>
+                <div class="cart-actions">
+                    <button class="remove-btn" onclick="removeItem(${item.id}, '${item.size || ''}')">✖</button>
+                    <div class="qty-control">
+                        <button onclick="changeQty(${item.id}, '${item.size || ''}', -1)">−</button>
+                        <div class="qty-count">${item.qty}</div>
+                        <button onclick="changeQty(${item.id}, '${item.size || ''}', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
 
+    // footer
+    const footer = document.querySelector('.cart-footer');
+    footer.innerHTML = `
+        <div class="subtotal-wrapper">
+            <div class="subtotal-label">Subtotal</div>
+            <div class="subtotal-amount">৳ <span id="subtotal">${subtotal}</span></div>
+        </div>
+        <button id="checkout-btn">Proceed to Checkout</button>
+    `;
+
+    document.getElementById('cart-count').textContent = cart.reduce((t,i)=>t+i.qty,0);
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// ================= CHANGE QUANTITY =================
+window.changeQty = function(id, size='', delta){
+    const item = cart.find(c => c.id === id && (c.size||'') === size);
+    if(!item) return;
+
+    item.qty += delta;
+    if(item.qty < 1) item.qty = 1;   // prevent 0
+    updateCart();
+}
+
+// ================= REMOVE ITEM =================
+window.removeItem = function(id, size=''){
+    cart = cart.filter(c => !(c.id===id && (c.size||'')===size));
+    updateCart();
+}
     document.querySelector('.cart-footer').addEventListener('click', function(e){
         if(e.target && e.target.id==='checkout-btn'){
             openCheckout();
@@ -254,28 +343,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 cartDrawer.classList.remove('open');
             }
         });
+        updateCheckoutSummary();
     }
 
     closeModal.addEventListener('click',()=>checkoutModal.style.display='none');
 
     placeOrderBtn.addEventListener('click', ()=>{
-        checkoutModal.style.display='none';
-        const successModal = document.getElementById('order-success-modal');
-        const countdownEl = document.getElementById('countdown');
-        successModal.style.display='flex';
-        let count = 5;
-        countdownEl.textContent=count;
-        const timer = setInterval(()=>{
-            count--;
-            countdownEl.textContent=count;
-            if(count<=0){
-                clearInterval(timer);
-                successModal.style.display='none';
-                cart=[];
-                updateCart();
-                window.scrollTo(0,0);
-            }
-        },1000);
+        const nameInput = document.getElementById('name');
+        const phoneInput = document.getElementById('phone');
+        const addressInput = document.getElementById('address');
+        const districtSelect = document.getElementById('district'); // add a district select
+        if(!nameInput.value.trim()){ alert("Please enter your name"); return; }
+        if(!phoneInput.value.trim()){ alert("Please enter your phone number"); return; }
+        if(!addressInput.value.trim()){ alert("Please enter your address"); return; }
+        if(!districtSelect.value){ alert("Please select your district"); return; }
+    
+        // calculate delivery charge
+        let delivery = 0;
+        switch(districtSelect.value){
+            case "dhaka": delivery=60; break;
+            case "chattogram": delivery=120; break;
+            default: delivery=150;
+        }
+    
+        // subtotal
+        let subtotal = cart.reduce((t,i)=>t + i.price*i.qty, 0);
+        const total = subtotal + delivery;
+    
+        // show summary & send to backend
     });
 
     categories.forEach(cat=>{
