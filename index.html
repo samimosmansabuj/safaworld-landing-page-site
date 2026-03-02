@@ -8,6 +8,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart-item.css">
+  <link rel="stylesheet" href="css/checkout.css">
 
   <!-- Fonts -->
   <link
@@ -19,9 +21,15 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo">BrandName</div>
-    <div class="header-right">
+    <div class="logo">
+      <a href="/" style="text-decoration: none; color: white; font-weight: bold;">ZenXone</a>
+    </div>
+
+    <div class="header-middle">
       <input type="text" placeholder="Search Panjabi..." class="search-bar">
+    </div>
+
+    <div class="header-right">
       <div class="cart-icon" id="cart-icon">
         🛒 <span id="cart-count">0</span>
       </div>
@@ -74,30 +82,30 @@
     <div class="modal-content">
 
       <h3>Checkout</h3>
-    
+
       <!-- ================= CUSTOMER INFO ================= -->
       <div class="checkout-section">
         <h4 class="section-title">Customer Information</h4>
-    
+
         <div class="form-group">
           <label>Full Name *</label>
           <input type="text" id="name" placeholder="Enter your full name">
         </div>
-    
+
         <div class="form-group">
           <label>Phone Number *</label>
           <input type="tel" id="phone" placeholder="01XXXXXXXXX">
         </div>
-    
+
         <div class="form-group">
           <label>Full Address *</label>
           <textarea id="address" placeholder="House no, Road, Area"></textarea>
         </div>
         <div class="form-group">
           <label>Note (Optional)</label>
-          <textarea  id="note" placeholder="Optional note"></textarea>
+          <textarea id="note" placeholder="Optional note"></textarea>
         </div>
-    
+
         <div class="form-row">
           <div class="form-group half">
             <label>District *</label>
@@ -110,36 +118,36 @@
           </div>
         </div>
       </div>
-    
+
       <!-- ================= ORDERED PRODUCTS ================= -->
       <div class="checkout-section">
         <h4 class="section-title">Your Products</h4>
         <div id="checkout-products"></div>
       </div>
-    
+
       <!-- ================= ORDER SUMMARY ================= -->
       <div class="checkout-section summary-section">
         <h4 class="section-title">Order Summary</h4>
-    
+
         <div class="summary-row">
           <span>Subtotal</span>
           <span>৳ <span id="checkout-subtotal">0</span></span>
         </div>
-    
+
         <div class="summary-row">
           <span>Delivery</span>
           <span>৳ <span id="checkout-delivery">0</span></span>
         </div>
-    
+
         <div class="summary-row total-row">
           <span>Total</span>
           <span>৳ <span id="checkout-total">0</span></span>
         </div>
       </div>
-    
+
       <button id="place-order">Confirm Order</button>
       <button id="close-modal">Cancel</button>
-    
+
     </div>
   </div>
 

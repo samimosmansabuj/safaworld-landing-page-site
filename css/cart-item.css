@@ -1,0 +1,239 @@
+/* ================= CART ================= */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 380px;
+    height: 100%;
+    background: #111;
+    transition: 0.4s ease;
+    padding: 20px;
+    z-index: 2000;
+    color: #fff;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.4);
+    overflow-y: auto;
+}
+
+.cart-drawer.open {
+    right: 0;
+}
+
+/* ===== CART HEADER ===== */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cart-header h3 {
+    color: #C6A85C;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#close-cart {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* ===== CART FOOTER ===== */
+.cart-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.subtotal-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+    color: #C6A85C;
+}
+
+.cart-footer #checkout-btn {
+    align-self: center;
+    padding: 12px 25px;
+    border: none;
+    background: #C6A85C;
+    color: #fff;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.cart-footer #checkout-btn:hover {
+    background: #bfa258;
+}
+
+/* ================= PERFECT CART ITEM LAYOUT ================= */
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 0px 0px 12px 0px;
+    border-bottom: 1px solid #222;
+}
+
+/* Small Left Image */
+.cart-item .mini-img {
+    width: 55px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Right Side */
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* First Line: Product Name */
+.item-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+}
+
+/* Second Line Wrapper */
+.item-bottom {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+
+/* Size Dropdown */
+.item-options select {
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+/* Quantity Control */
+.qty-control {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    border: 1px solid #444;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.qty-control button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qty-control button:hover {
+    color: #C6A85C;
+}
+
+.qty-count {
+    min-width: 22px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Remove Button */
+.remove-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #aa0e0e;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.remove-btn:hover {
+    color: #ff3b3b;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .cart-drawer {
+        width: 85%;
+        right: -85%;
+        padding: 15px;
+        border-radius: 20px 0 0 20px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .cart-drawer.open {
+        right: 0;
+    }
+
+    .cart-header h3 {
+        font-size: 18px;
+    }
+
+    .cart-item {
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .cart-item .mini-img {
+        max-width: 150px;
+    }
+
+    .item-info {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .item-options select {
+        width: 100%;
+    }
+
+    .cart-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .cart-footer {
+        left: 15px;
+        right: 15px;
+        bottom: 20px;
+    }
+
+    .subtotal-wrapper {
+        font-size: 14px;
+    }
+
+    #checkout-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+}

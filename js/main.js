@@ -1,67 +1,67 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', () => {
 
     const productsData = [
         {
-            id:1,
-            name:"Royal Wedding Panjabi",
-            price:4500,
-            category:"wedding",
-            image:"image/panjabi1.jpg",
-            images:["image/panjabi1.jpg","image/panjabi1_alt1.jfif","image/panjabi1_alt2.jfif"],
-            description:"Luxurious silk panjabi with intricate embroidery.",
-            sizes:["S","M","L","XL"]
+            id: 1,
+            name: "Royal Wedding Panjabi",
+            price: 4500,
+            category: "wedding",
+            image: "image/panjabi1.jpg",
+            images: ["image/panjabi1.jpg", "image/panjabi1_alt1.jfif", "image/panjabi1_alt2.jfif"],
+            description: "Luxurious silk panjabi with intricate embroidery.",
+            sizes: ["S", "M", "L", "XL"]
         },
         {
-            id:2,
-            name:"Casual Cotton Panjabi",
-            price:2500,
-            category:"casual",
-            image:"image/panjabi2.jpg",
-            images:["image/panjabi2.jpg","image/panjabi2_alt1.jpg"],
-            description:"Comfortable cotton panjabi, perfect for daily wear.",
-            sizes:["S","M","L","XL"]
+            id: 2,
+            name: "Casual Cotton Panjabi",
+            price: 2500,
+            category: "casual",
+            image: "image/panjabi2.jpg",
+            images: ["image/panjabi2.jpg", "image/panjabi2_alt1.jpg"],
+            description: "Comfortable cotton panjabi, perfect for daily wear.",
+            sizes: ["S", "M", "L", "XL"]
         },
         {
-            id:3,
-            name:"Festive Silk Panjabi",
-            price:3800,
-            category:"festive",
-            image:"image/panjabi3.jpg",
-            images:["image/panjabi3.jpg"],
-            description:"Festive panjabi made from premium silk.",
-            sizes:["S","M","L","XL"]
+            id: 3,
+            name: "Festive Silk Panjabi",
+            price: 3800,
+            category: "festive",
+            image: "image/panjabi3.jpg",
+            images: ["image/panjabi3.jpg"],
+            description: "Festive panjabi made from premium silk.",
+            sizes: ["S", "M", "L", "XL"]
         },
         {
-            id:4,
-            name:"Festive Silk Panjabi",
-            price:3800,
-            category:"festive",
-            image:"image/panjabi4.jpg",
-            images:["image/panjabi4.jpg"],
-            description:"Festive panjabi made from premium silk.",
-            sizes:["S","M","L","XL"]
+            id: 4,
+            name: "Festive Silk Panjabi",
+            price: 3800,
+            category: "festive",
+            image: "image/panjabi4.jpg",
+            images: ["image/panjabi4.jpg"],
+            description: "Festive panjabi made from premium silk.",
+            sizes: ["S", "M", "L", "XL"]
         },
         {
-            id:5,
-            name:"Festive Silk Panjabi",
-            price:3800,
-            category:"festive",
-            image:"image/panjabi5.jpg",
-            images:["image/panjabi5.jpg"],
-            description:"Festive panjabi made from premium silk.",
-            sizes:["S","M","L","XL"]
+            id: 5,
+            name: "Festive Silk Panjabi",
+            price: 3800,
+            category: "festive",
+            image: "image/panjabi5.jpg",
+            images: ["image/panjabi5.jpg"],
+            description: "Festive panjabi made from premium silk.",
+            sizes: ["S", "M", "L", "XL"]
         },
         {
-            id:6,
-            name:"Festive Silk Panjabi",
-            price:3800,
-            category:"festive",
-            image:"image/panjabi6.jpg",
-            images:["image/panjabi6.jpg"],
-            description:"Festive panjabi made from premium silk.",
-            sizes:["S","M","L","XL"]
+            id: 6,
+            name: "Festive Silk Panjabi",
+            price: 3800,
+            category: "festive",
+            image: "image/panjabi6.jpg",
+            images: ["image/panjabi6.jpg"],
+            description: "Festive panjabi made from premium silk.",
+            sizes: ["S", "M", "L", "XL"]
         },
-        
+
     ];
 
     const productsContainer = document.getElementById('products');
@@ -77,15 +77,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     // ================= RENDER PRODUCTS =================
-    function renderProducts(filter="all"){
-        productsContainer.innerHTML='';
-        let filtered = filter==="all" ? productsData :
-            productsData.filter(p=>p.category===filter);
+    function renderProducts(filter = "all") {
+        productsContainer.innerHTML = '';
+        let filtered = filter === "all" ? productsData :
+            productsData.filter(p => p.category === filter);
 
-        filtered.forEach(p=>{
+        filtered.forEach(p => {
             const div = document.createElement('div');
             div.classList.add('product-card');
-            div.innerHTML=`
+            div.innerHTML = `
                 <img src="${p.image}" alt="${p.name}">
                 <h4>${p.name}</h4>
                 <p>৳ ${p.price}</p>
@@ -100,11 +100,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     // ================= PRODUCT DETAIL MODAL =================
     let productDetailModal = document.getElementById('product-detail-modal');
-    if(!productDetailModal){
+    if (!productDetailModal) {
         productDetailModal = document.createElement('div');
         productDetailModal.id = 'product-detail-modal';
         productDetailModal.className = 'checkout-modal';
-        productDetailModal.innerHTML=`
+        productDetailModal.innerHTML = `
             <div class="modal-content">
                 <span id="close-detail-modal" style="position:absolute;right:15px;top:10px;font-size:24px;cursor:pointer;">✖</span>
                 <h3 id="detail-name"></h3>
@@ -135,16 +135,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const detailBuyNow = document.getElementById('detail-buy-now');
 
     // attach clicks to open product modal
-    function attachProductClicks(){
+    function attachProductClicks() {
         const cards = document.querySelectorAll('.product-card');
-        cards.forEach(card=>{
+        cards.forEach(card => {
             const img = card.querySelector('img');
             const name = card.querySelector('h4');
-            [img,name].forEach(el=>{
-                el.style.cursor='pointer';
-                el.onclick=()=>{
+            [img, name].forEach(el => {
+                el.style.cursor = 'pointer';
+                el.onclick = () => {
                     const productName = card.querySelector('h4').textContent;
-                    const product = productsData.find(p=>p.name===productName);
+                    const product = productsData.find(p => p.name === productName);
                     openProductDetail(product);
                 }
             });
@@ -152,21 +152,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     // open modal
-    function openProductDetail(product){
+    function openProductDetail(product) {
         mainDetailImg.src = product.image;
 
         // thumbnails
-        detailThumbs.innerHTML='';
+        detailThumbs.innerHTML = '';
         const images = product.images || [product.image];
-        images.forEach(src=>{
+        images.forEach(src => {
             const thumb = document.createElement('img');
             thumb.src = src;
-            thumb.style.width='60px';
-            thumb.style.height='60px';
-            thumb.style.objectFit='cover';
-            thumb.style.borderRadius='10px';
-            thumb.style.cursor='pointer';
-            thumb.addEventListener('click',()=> mainDetailImg.src=src);
+            thumb.style.width = '60px';
+            thumb.style.height = '60px';
+            thumb.style.objectFit = 'cover';
+            thumb.style.borderRadius = '10px';
+            thumb.style.cursor = 'pointer';
+            thumb.addEventListener('click', () => mainDetailImg.src = src);
             detailThumbs.appendChild(thumb);
         });
 
@@ -176,61 +176,61 @@ document.addEventListener('DOMContentLoaded', ()=>{
         detailDescription.textContent = product.description || 'No description available.';
 
         // sizes as boxes
-        detailSize.innerHTML='';
-        const sizes = product.sizes || ["S","M","L","XL"];
-        sizes.forEach(s=>{
+        detailSize.innerHTML = '';
+        const sizes = product.sizes || ["S", "M", "L", "XL"];
+        sizes.forEach(s => {
             const box = document.createElement('div');
-            box.className='size-box';
+            box.className = 'size-box';
             box.textContent = s;
-            box.onclick = ()=>{
-                detailSize.querySelectorAll('.size-box').forEach(b=>b.classList.remove('selected'));
+            box.onclick = () => {
+                detailSize.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
                 box.classList.add('selected');
             }
             detailSize.appendChild(box);
         });
 
-        productDetailModal.style.display='flex';
+        productDetailModal.style.display = 'flex';
 
         // Add to Cart
-        detailAddToCart.onclick = ()=>{
+        detailAddToCart.onclick = () => {
             const selected = detailSize.querySelector('.size-box.selected');
-            if(!selected){ alert("Please select a size!"); return; }
+            if (!selected) { alert("Please select a size!"); return; }
             const selectedSize = selected.textContent;
-            const existing = cart.find(c=>c.id===product.id && c.size===selectedSize);
-            if(existing){ existing.qty++ }
-            else{ cart.push({...product, qty:1, size:selectedSize}); }
+            const existing = cart.find(c => c.id === product.id && c.size === selectedSize);
+            if (existing) { existing.qty++ }
+            else { cart.push({ ...product, qty: 1, size: selectedSize }); }
             updateCart();
-            productDetailModal.style.display='none';
+            productDetailModal.style.display = 'none';
         };
 
         // Buy Now
-        detailBuyNow.onclick = ()=>{
+        detailBuyNow.onclick = () => {
             const selected = detailSize.querySelector('.size-box.selected');
-            if(!selected){ alert("Please select a size!"); return; }
+            if (!selected) { alert("Please select a size!"); return; }
             const selectedSize = selected.textContent;
-            const existing = cart.find(c=>c.id===product.id && c.size===selectedSize);
-            if(existing){ existing.qty++ }
-            else{ cart.push({...product, qty:1, size:selectedSize}); }
+            const existing = cart.find(c => c.id === product.id && c.size === selectedSize);
+            if (existing) { existing.qty++ }
+            else { cart.push({ ...product, qty: 1, size: selectedSize }); }
             updateCart();
-            productDetailModal.style.display='none';
+            productDetailModal.style.display = 'none';
             openCheckout();
         };
     }
 
-    closeDetailModal.onclick = ()=> productDetailModal.style.display='none';
+    closeDetailModal.onclick = () => productDetailModal.style.display = 'none';
 
-    
+
     // =============== CHECK OUT SUMMARY ==========
-    function updateCheckoutSummary(){
+    function updateCheckoutSummary() {
 
         const checkoutProducts = document.getElementById('checkout-products');
         checkoutProducts.innerHTML = '';
-    
+
         let subtotal = 0;
-    
-        cart.forEach(item=>{
+
+        cart.forEach(item => {
             subtotal += item.price * item.qty;
-    
+
             checkoutProducts.innerHTML += `
                 <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
                     <span>${item.name} (${item.size}) × ${item.qty}</span>
@@ -238,48 +238,62 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 </div>
             `;
         });
-    
+
         const district = document.getElementById('district').value;
         let delivery = 0;
-    
-        if(district==='dhaka') delivery=60;
-        else if(district==='chattogram') delivery=120;
-        else if(district) delivery=150;
-    
-        document.getElementById('checkout-subtotal').innerText=subtotal;
-        document.getElementById('checkout-delivery').innerText=delivery;
-        document.getElementById('checkout-total').innerText=subtotal+delivery;
+
+        if (district === 'dhaka') delivery = 60;
+        else if (district === 'chattogram') delivery = 120;
+        else if (district) delivery = 150;
+
+        document.getElementById('checkout-subtotal').innerText = subtotal;
+        document.getElementById('checkout-delivery').innerText = delivery;
+        document.getElementById('checkout-total').innerText = subtotal + delivery;
     }
-    
+
     document.getElementById('district').addEventListener('change', updateCheckoutSummary);
-    
-  // ================= UPDATE CART =================
-function updateCart(){
-    cartItemsContainer.innerHTML='';
-    let subtotal=0;
-    cart.forEach(item=>{
-        subtotal += item.price*item.qty;
-        cartItemsContainer.innerHTML+=`
+
+    // ================= UPDATE CART =================
+    function updateCart() {
+        cartItemsContainer.innerHTML = '';
+        let subtotal = 0;
+        cart.forEach(item => {
+            subtotal += item.price * item.qty;
+            cartItemsContainer.innerHTML += `
             <div class="cart-item">
                 <img src="${item.image}" alt="${item.name}" class="mini-img">
+
                 <div class="item-info">
-                    <p class="item-name">${item.name} ${item.size ? '('+item.size+')' : ''}</p>
-                </div>
-                <div class="cart-actions">
-                    <button class="remove-btn" onclick="removeItem(${item.id}, '${item.size || ''}')">✖</button>
-                    <div class="qty-control">
-                        <button onclick="changeQty(${item.id}, '${item.size || ''}', -1)">−</button>
-                        <div class="qty-count">${item.qty}</div>
-                        <button onclick="changeQty(${item.id}, '${item.size || ''}', 1)">+</button>
+                    <p class="item-name">${item.name}</p>
+
+                    <div class="item-bottom">
+                        <div class="item-options">
+                            ${ item.sizes && item.sizes.length > 0
+                            ? `<select onchange="changeSize(${item.id}, this.value)">
+                                ${item.sizes.map(size =>
+                                    `<option value="${size}" ${size === item.size ? 'selected' : ''}>${size}</option>`
+                                ).join('')}
+                            </select>`
+                            : '' }
+                        </div>
+
+                        <div class="qty-control">
+                            <button onclick="changeQty(${item.id}, '${item.size || ''}', -1)">−</button>
+                            <div class="qty-count">${item.qty}</div>
+                            <button onclick="changeQty(${item.id}, '${item.size || ''}', 1)">+</button>
+                        </div>
+
+                        <button class="remove-btn"
+                            onclick="removeItem(${item.id}, '${item.size || ''}')">✖</button>
                     </div>
                 </div>
             </div>
-        `;
-    });
+            `;
+        });
 
-    // footer
-    const footer = document.querySelector('.cart-footer');
-    footer.innerHTML = `
+        // footer
+        const footer = document.querySelector('.cart-footer');
+        footer.innerHTML = `
         <div class="subtotal-wrapper">
             <div class="subtotal-label">Subtotal</div>
             <div class="subtotal-amount">৳ <span id="subtotal">${subtotal}</span></div>
@@ -287,58 +301,58 @@ function updateCart(){
         <button id="checkout-btn">Proceed to Checkout</button>
     `;
 
-    document.getElementById('cart-count').textContent = cart.reduce((t,i)=>t+i.qty,0);
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
+        document.getElementById('cart-count').textContent = cart.reduce((t, i) => t + i.qty, 0);
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
 
-// ================= CHANGE QUANTITY =================
-window.changeQty = function(id, size='', delta){
-    const item = cart.find(c => c.id === id && (c.size||'') === size);
-    if(!item) return;
+    // ================= CHANGE QUANTITY =================
+    window.changeQty = function (id, size = '', delta) {
+        const item = cart.find(c => c.id === id && (c.size || '') === size);
+        if (!item) return;
 
-    item.qty += delta;
-    if(item.qty < 1) item.qty = 1;   // prevent 0
-    updateCart();
-}
+        item.qty += delta;
+        if (item.qty < 1) item.qty = 1;   // prevent 0
+        updateCart();
+    }
 
-// ================= REMOVE ITEM =================
-window.removeItem = function(id, size=''){
-    cart = cart.filter(c => !(c.id===id && (c.size||'')===size));
-    updateCart();
-}
-    document.querySelector('.cart-footer').addEventListener('click', function(e){
-        if(e.target && e.target.id==='checkout-btn'){
+    // ================= REMOVE ITEM =================
+    window.removeItem = function (id, size = '') {
+        cart = cart.filter(c => !(c.id === id && (c.size || '') === size));
+        updateCart();
+    }
+    document.querySelector('.cart-footer').addEventListener('click', function (e) {
+        if (e.target && e.target.id === 'checkout-btn') {
             openCheckout();
             cartDrawer.classList.remove('open');
         }
     });
 
-    window.addToCart = function(id){
-        const product = productsData.find(p=>p.id===id);
-        const existing = cart.find(c=>c.id===id);
-        if(existing){ existing.qty++ }
-        else{ cart.push({...product,qty:1}); }
+    window.addToCart = function (id) {
+        const product = productsData.find(p => p.id === id);
+        const existing = cart.find(c => c.id === id);
+        if (existing) { existing.qty++ }
+        else { cart.push({ ...product, qty: 1 }); }
         updateCart();
         cartDrawer.classList.add('open');
     }
 
-    window.buyNow = function(id){
+    window.buyNow = function (id) {
         addToCart(id);
         openCheckout();
     }
 
-    window.removeItem = function(id){
-        cart = cart.filter(c=>c.id!==id);
+    window.removeItem = function (id) {
+        cart = cart.filter(c => c.id !== id);
         updateCart();
     }
 
-    cartIcon.addEventListener('click',()=>cartDrawer.classList.add('open'));
-    closeCart.addEventListener('click',()=>cartDrawer.classList.remove('open'));
+    cartIcon.addEventListener('click', () => cartDrawer.classList.add('open'));
+    closeCart.addEventListener('click', () => cartDrawer.classList.remove('open'));
 
-    function openCheckout(){
-        checkoutModal.style.display='flex';
-        document.addEventListener('click', function(e){
-            if(e.target && e.target.id === 'checkout-btn'){
+    function openCheckout() {
+        checkoutModal.style.display = 'flex';
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.id === 'checkout-btn') {
                 openCheckout();
                 cartDrawer.classList.remove('open');
             }
@@ -346,35 +360,35 @@ window.removeItem = function(id, size=''){
         updateCheckoutSummary();
     }
 
-    closeModal.addEventListener('click',()=>checkoutModal.style.display='none');
+    closeModal.addEventListener('click', () => checkoutModal.style.display = 'none');
 
-    placeOrderBtn.addEventListener('click', ()=>{
+    placeOrderBtn.addEventListener('click', () => {
         const nameInput = document.getElementById('name');
         const phoneInput = document.getElementById('phone');
         const addressInput = document.getElementById('address');
         const districtSelect = document.getElementById('district'); // add a district select
-        if(!nameInput.value.trim()){ alert("Please enter your name"); return; }
-        if(!phoneInput.value.trim()){ alert("Please enter your phone number"); return; }
-        if(!addressInput.value.trim()){ alert("Please enter your address"); return; }
-        if(!districtSelect.value){ alert("Please select your district"); return; }
-    
+        if (!nameInput.value.trim()) { alert("Please enter your name"); return; }
+        if (!phoneInput.value.trim()) { alert("Please enter your phone number"); return; }
+        if (!addressInput.value.trim()) { alert("Please enter your address"); return; }
+        if (!districtSelect.value) { alert("Please select your district"); return; }
+
         // calculate delivery charge
         let delivery = 0;
-        switch(districtSelect.value){
-            case "dhaka": delivery=60; break;
-            case "chattogram": delivery=120; break;
-            default: delivery=150;
+        switch (districtSelect.value) {
+            case "dhaka": delivery = 60; break;
+            case "chattogram": delivery = 120; break;
+            default: delivery = 150;
         }
-    
+
         // subtotal
-        let subtotal = cart.reduce((t,i)=>t + i.price*i.qty, 0);
+        let subtotal = cart.reduce((t, i) => t + i.price * i.qty, 0);
         const total = subtotal + delivery;
-    
+
         // show summary & send to backend
     });
 
-    categories.forEach(cat=>{
-        cat.addEventListener('click',()=> renderProducts(cat.dataset.filter));
+    categories.forEach(cat => {
+        cat.addEventListener('click', () => renderProducts(cat.dataset.filter));
     });
 
     renderProducts();
