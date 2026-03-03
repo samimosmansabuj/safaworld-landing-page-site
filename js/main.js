@@ -311,8 +311,10 @@ if (!sizePopup) {
     document.body.appendChild(sizePopup);
 }
 
+
+
 // Center popup using your existing modal CSS
-sizePopup.style.display = 'flex';
+sizePopup.style.display = 'none';
 sizePopup.style.justifyContent = 'center';
 sizePopup.style.alignItems = 'center';
 sizePopup.style.position = 'fixed';
