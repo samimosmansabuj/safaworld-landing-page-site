@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     description: product.short_description || "",
                     sizes: ["38", "40", "42", "44", "46"]
                 }));
-
                 renderProducts();
             }
         } catch (error) {
@@ -57,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeOrderBtn = document.getElementById('place-order');
     const categories = document.querySelectorAll('.category');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
 
     // ================= PRODUCT DETAIL MODAL =================
     let productDetailModal = document.getElementById('product-detail-modal');
@@ -180,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeDetailModal.onclick = () => productDetailModal.style.display = 'none';
 
-
     // =============== CHECK OUT SUMMARY ==========
     function updateCheckoutSummary() {
         const checkoutProducts = document.getElementById('checkout-products');
@@ -189,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let subtotal = 0;
 
         cart.forEach(item => {
-            console.log(item);
             subtotal += item.price * item.qty;
             checkoutProducts.innerHTML += `
                 <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
@@ -265,6 +261,16 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
+    // =============== CHANGE SIZE ======================= 
+    window.changeSize = function(id, newSize) {
+        const item = cart.find(c => c.id === id);
+        if(item) {
+            item.size = newSize;             
+            updateCart();                    
+            updateCheckoutSummary();         
+        }
+    }
+
     // ================= CHANGE QUANTITY =================
     window.changeQty = function (id, size = '', delta) {
         const item = cart.find(c => c.id === id && (c.size || '') === size);
@@ -287,24 +293,104 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    window.addToCart = function (id) {
-        const product = productsData.find(p => p.id === id);
-        const existing = cart.find(c => c.id === id);
-        if (existing) { existing.qty++ }
-        else { cart.push({ ...product, qty: 1 }); }
-        updateCart();
-        cartDrawer.classList.add('open');
-    }
+    // ================= SIZE POPUP (PRODUCT LIST) ==================
+let sizePopup = document.getElementById('size-popup');
+if (!sizePopup) {
+    sizePopup = document.createElement('div');
+    sizePopup.id = 'size-popup';
+    sizePopup.className = 'checkout-modal'; // reuse existing modal CSS
+    sizePopup.style.display = 'none';
+    sizePopup.innerHTML = `
+        <div class="modal-content" style="position:relative; max-width:300px; text-align:center;">
+            <span id="size-close" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer;">✖</span>
+            <h4>Select Size</h4>
+            <div id="size-options" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0;"></div>
+            <button id="size-confirm" style="margin-top:10px;">Confirm</button>
+        </div>
+    `;
+    document.body.appendChild(sizePopup);
+}
 
-    window.buyNow = function (id) {
-        addToCart(id);
-        openCheckout();
-    }
+// Center popup using your existing modal CSS
+sizePopup.style.display = 'flex';
+sizePopup.style.justifyContent = 'center';
+sizePopup.style.alignItems = 'center';
+sizePopup.style.position = 'fixed';
+sizePopup.style.top = '0';
+sizePopup.style.left = '0';
+sizePopup.style.width = '100%';
+sizePopup.style.height = '100%';
+sizePopup.style.background = 'rgba(0,0,0,0.6)'; // overlay dark
 
-    window.removeItem = function (id) {
-        cart = cart.filter(c => c.id !== id);
-        updateCart();
-    }
+// Close button functionality
+document.getElementById('size-close').onclick = () => {
+    sizePopup.style.display = 'none';
+};
+
+let currentProductForSize = null;
+let selectedSizeForPopup = null;
+
+function openSizePopup(product, action) {
+    currentProductForSize = { product, action };
+    selectedSizeForPopup = null;
+
+    const optionsContainer = document.getElementById('size-options');
+    optionsContainer.innerHTML = '';
+    optionsContainer.style.display = 'flex';
+    optionsContainer.style.flexWrap = 'nowrap';   // prevent wrapping
+    optionsContainer.style.justifyContent = 'center';
+    optionsContainer.style.gap = '5px'; 
+    (product.sizes || ["S","M","L","XL"]).forEach(size => {
+        const box = document.createElement('div');
+        box.className = 'size-box';
+        box.style.width = '40px';       
+        box.style.height = '40px';      
+        box.style.fontSize = '14px';
+        box.style.borderRadius = '6px';
+        box.style.textAlign = 'center';
+        box.style.display = 'flex';             // use flex
+        box.style.alignItems = 'center';        // vertical center
+        box.style.justifyContent = 'center';    // horizontal center
+        box.style.margin = '0 5px';
+        box.style.cursor = 'pointer';
+        box.textContent = size;
+        box.style.cursor = 'pointer';
+        box.onclick = () => {
+            optionsContainer.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
+            box.classList.add('selected');
+            selectedSizeForPopup = size;
+        }
+        optionsContainer.appendChild(box);
+    });
+
+    sizePopup.style.display = 'flex';
+}
+
+// confirm button
+document.getElementById('size-confirm').onclick = () => {
+    if (!selectedSizeForPopup) { alert("Please select a size!"); return; }
+    const { product, action } = currentProductForSize;
+    const existing = cart.find(c => c.id === product.id && c.size === selectedSizeForPopup);
+    if (existing) { existing.qty++; }
+    else { cart.push({ ...product, qty:1, size: selectedSizeForPopup }); }
+
+    updateCart();
+    sizePopup.style.display = 'none';
+
+    if (action === 'buyNow') openCheckout();
+}
+
+// ==================== ADD TO CART (PRODUCT LIST) ==================
+window.addToCart = function(id) {
+    const product = productsData.find(p => p.id === id);
+    openSizePopup(product, 'addToCart');
+}
+
+// ==================== BUY NOW (PRODUCT LIST) ==================
+window.buyNow = function(id) {
+    const product = productsData.find(p => p.id === id);
+    openSizePopup(product, 'buyNow');
+}
 
     cartIcon.addEventListener('click', () => cartDrawer.classList.add('open'));
     closeCart.addEventListener('click', () => cartDrawer.classList.remove('open'));
@@ -326,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nameInput = document.getElementById('name');
         const phoneInput = document.getElementById('phone');
         const addressInput = document.getElementById('address');
-        const districtSelect = document.getElementById('district'); // add a district select
+        const districtSelect = document.getElementById('district');
         if (!nameInput.value.trim()) { alert("Please enter your name"); return; }
         if (!phoneInput.value.trim()) { alert("Please enter your phone number"); return; }
         if (!addressInput.value.trim()) { alert("Please enter your address"); return; }
@@ -340,11 +426,8 @@ document.addEventListener('DOMContentLoaded', () => {
             default: delivery = 150;
         }
 
-        // subtotal
         let subtotal = cart.reduce((t, i) => t + i.price * i.qty, 0);
         const total = subtotal + delivery;
-
-        // show summary & send to backend
     });
 
     categories.forEach(cat => {

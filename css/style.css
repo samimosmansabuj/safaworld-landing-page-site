@@ -242,9 +242,10 @@ button:hover {
 /* ================= PRODUCTS ================= */
 .products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 5px;
-  padding: 15px 15px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 300px)); /* max width 300px */
+  justify-content: center; /* center cards if less than full row */
+  gap: 15px;
+  padding: 15px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(0.35s);
   border-radius: 30px;
