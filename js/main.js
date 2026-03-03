@@ -1,82 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Product Fetch------------
+    let productsData = [];
+    async function fetchProducts() {
+        try {
+            const response = await fetch("https://api.zenxone.com/api/product-fetch/1002/");
+            const result = await response.json();
 
-    const productsData = [
-        {
-            id: 1,
-            name: "Royal Wedding Panjabi",
-            price: 4500,
-            category: "wedding",
-            image: "image/panjabi1.jpg",
-            images: ["image/panjabi1.jpg", "image/panjabi1_alt1.jfif", "image/panjabi1_alt2.jfif"],
-            description: "Luxurious silk panjabi with intricate embroidery.",
-            sizes: ["S", "M", "L", "XL"]
-        },
-        {
-            id: 2,
-            name: "Casual Cotton Panjabi",
-            price: 2500,
-            category: "casual",
-            image: "image/panjabi2.jpg",
-            images: ["image/panjabi2.jpg", "image/panjabi2_alt1.jpg"],
-            description: "Comfortable cotton panjabi, perfect for daily wear.",
-            sizes: ["S", "M", "L", "XL"]
-        },
-        {
-            id: 3,
-            name: "Festive Silk Panjabi",
-            price: 3800,
-            category: "festive",
-            image: "image/panjabi3.jpg",
-            images: ["image/panjabi3.jpg"],
-            description: "Festive panjabi made from premium silk.",
-            sizes: ["S", "M", "L", "XL"]
-        },
-        {
-            id: 4,
-            name: "Festive Silk Panjabi",
-            price: 3800,
-            category: "festive",
-            image: "image/panjabi4.jpg",
-            images: ["image/panjabi4.jpg"],
-            description: "Festive panjabi made from premium silk.",
-            sizes: ["S", "M", "L", "XL"]
-        },
-        {
-            id: 5,
-            name: "Festive Silk Panjabi",
-            price: 3800,
-            category: "festive",
-            image: "image/panjabi5.jpg",
-            images: ["image/panjabi5.jpg"],
-            description: "Festive panjabi made from premium silk.",
-            sizes: ["S", "M", "L", "XL"]
-        },
-        {
-            id: 6,
-            name: "Festive Silk Panjabi",
-            price: 3800,
-            category: "festive",
-            image: "image/panjabi6.jpg",
-            images: ["image/panjabi6.jpg"],
-            description: "Festive panjabi made from premium silk.",
-            sizes: ["S", "M", "L", "XL"]
-        },
+            if (result.status) {
+                productsData = result.data.map(product => ({
+                    id: product.id,
+                    name: product.name,
+                    price: product.discount_price ? product.discount_price : product.price,
+                    category: product.category,
+                    image: product.images.length > 0 ? product.images[0].image : "image/no-image.jpg",
+                    images: product.images.map(img => img.image),
+                    description: product.short_description || "",
+                    sizes: ["38", "40", "42", "44", "46"]
+                }));
 
-    ];
-
-    const productsContainer = document.getElementById('products');
-    const cartIcon = document.getElementById('cart-icon');
-    const cartDrawer = document.getElementById('cart-drawer');
-    const closeCart = document.getElementById('close-cart');
-    const cartItemsContainer = document.getElementById('cart-items');
-    const checkoutModal = document.getElementById('checkout-modal');
-    const closeModal = document.getElementById('close-modal');
-    const placeOrderBtn = document.getElementById('place-order');
-    const categories = document.querySelectorAll('.category');
-
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                renderProducts();
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    }
+    fetchProducts();
 
     // ================= RENDER PRODUCTS =================
+    const productsContainer = document.getElementById('products');
     function renderProducts(filter = "all") {
         productsContainer.innerHTML = '';
         let filtered = filter === "all" ? productsData :
@@ -97,6 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         attachProductClicks(); // attach click listeners for product detail
     }
+
+    const cartIcon = document.getElementById('cart-icon');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const closeCart = document.getElementById('close-cart');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const checkoutModal = document.getElementById('checkout-modal');
+    const closeModal = document.getElementById('close-modal');
+    const placeOrderBtn = document.getElementById('place-order');
+    const categories = document.querySelectorAll('.category');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
 
     // ================= PRODUCT DETAIL MODAL =================
     let productDetailModal = document.getElementById('product-detail-modal');
@@ -222,15 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // =============== CHECK OUT SUMMARY ==========
     function updateCheckoutSummary() {
-
         const checkoutProducts = document.getElementById('checkout-products');
         checkoutProducts.innerHTML = '';
 
         let subtotal = 0;
 
         cart.forEach(item => {
+            console.log(item);
             subtotal += item.price * item.qty;
-
             checkoutProducts.innerHTML += `
                 <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
                     <span>${item.name} (${item.size}) × ${item.qty}</span>
