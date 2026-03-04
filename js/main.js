@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH CATEGORIES =================
     async function fetchCategories() {
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/categories/");
+            const res = await fetch(`${ENV.API_BASE_URL}/api/categories/`);
             const result = await res.json();
             if (result.status && categoryContainer) {
                 categoryContainer.innerHTML = '';
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH PRODUCTS =================
     async function fetchProducts() {
         try {
-            let url = `http://127.0.0.1:8000/api/products/`;
+            let url = `${ENV.API_BASE_URL}/api/products/`;
             if (selectedCategory) url += `?category=${selectedCategory}`;
 
             const res = await fetch(url);
@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });        const payload = { name, phone, address, district, items };
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/order/create/", {
+            const res = await fetch(`${ENV.API_BASE_URL}/api/order/create/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
