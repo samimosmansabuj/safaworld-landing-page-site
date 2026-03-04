@@ -148,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openProductDetail(product) {
+        // View Content Event Tracking
+        FacebookViewContentEvent(product.name, product.price, product.id);
+        
         mainDetailImg.src = product.image;
         detailThumbs.innerHTML = '';
         const images = product.images || [product.image];
