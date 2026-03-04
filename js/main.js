@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH CATEGORIES =================
     async function fetchCategories() {
         try {
-            const res = await fetch("https://api.zenxone.com/api/categories/");
+            const res = await fetch("https://api.safaworldbd.com/api/categories/");
             const result = await res.json();
             if (result.status && categoryContainer) {
                 categoryContainer.innerHTML = '';
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH PRODUCTS =================
     async function fetchProducts() {
         try {
-            let url = `https://api.zenxone.com/api/products/`;
+            let url = `https://api.safaworldbd.com/api/products/`;
             if (selectedCategory) url += `?category=${selectedCategory}`;
 
             const res = await fetch(url);
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const payload = {name, phone, address, district, items};
 
         try {
-            const res = await fetch("https://api.zenxone.com/api/order/create/",{
+            const res = await fetch("https://api.safaworldbd.com/api/order/create/",{
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify(payload)
