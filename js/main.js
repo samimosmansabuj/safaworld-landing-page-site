@@ -376,7 +376,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
             const result = await res.json();
-            if (result.status) { alert("Order placed! ID: " + result.order_id); cart = []; updateCart(); checkoutModal.style.display = 'none'; }
+            if (result.status) {
+
+                // Close checkout
+                checkoutModal.style.display = 'none';
+            
+                // Clear cart
+                cart = [];
+                updateCart();
+            
+                // Show success modal
+                const successModal = document.getElementById('order-success-modal');
+                const countdownEl = document.getElementById('countdown');
+                successModal.style.display = 'flex';
+            
+                let timeLeft = 5;
+                countdownEl.textContent = timeLeft;
+            
+                const timer = setInterval(() => {
+                    timeLeft--;
+                    countdownEl.textContent = timeLeft;
+            
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        successModal.style.display = 'none';
+                        window.location.reload(); // or window.location.href = "/";
+                    }
+                }, 1000);
+            }
             else alert("Order failed: " + result.message);
         } catch (err) { console.error("Order error:", err); alert("Order error!"); }
     }
