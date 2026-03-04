@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH CATEGORIES =================
     async function fetchCategories() {
         try {
-            const res = await fetch("https://api.safaworldbd.com/api/categories/");
+            const res = await fetch("http://127.0.0.1:8000/api/categories/");
             const result = await res.json();
             if (result.status && categoryContainer) {
                 categoryContainer.innerHTML = '';
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH PRODUCTS =================
     async function fetchProducts() {
         try {
-            let url = `https://api.safaworldbd.com/api/products/`;
+            let url = `http://127.0.0.1:8000/api/products/`;
             if (selectedCategory) url += `?category=${selectedCategory}`;
 
             const res = await fetch(url);
@@ -89,7 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     image: product.images?.length > 0 ? product.images[0].image : "image/no-image.jpg",
                     images: product.images?.map(img => img.image) || [],
                     description: product.short_description || "",
-                    sizes: ["38", "40", "42", "44", "46"] // default sizes, can modify per product
+                    variants: product.variants || [],
+                    sizes: product.variants.map(v => v.attributes.size)
+                    // sizes: ["38", "40", "42", "44", "46"] // default sizes, can modify per product
                 }));
                 renderProducts();
             }
@@ -366,11 +368,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!name || !phone || !address || !district) { alert("All fields are required!"); return; }
         if (cart.length === 0) { alert("Cart is empty!"); return; }
 
-        const items = cart.map(i => ({ product_id: i.id, quantity: i.qty, size: i.size }));
-        const payload = { name, phone, address, district, items };
+        const items = cart.map(i => {
+            const product = productsData.find(p => p.id === i.id);
+            // Find variant by size
+            const variant = product.variants?.find(v => v.attributes?.size === i.size);
+            return {
+                product_id: i.id,
+                quantity: i.qty,
+                variant_id: variant?.id  // Send variant_id to backend
+            };
+        });        const payload = { name, phone, address, district, items };
 
         try {
-            const res = await fetch("https://api.safaworldbd.com/api/order/create/", {
+            const res = await fetch("http://127.0.0.1:8000/api/order/create/", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
