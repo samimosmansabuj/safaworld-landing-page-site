@@ -1,0 +1,5 @@
+.env
+env.js
+*.log
+
+pixel_script.js
