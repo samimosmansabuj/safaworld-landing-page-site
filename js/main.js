@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     images: product.images?.map(img => img.image) || [],
                     description: product.short_description || "",
                     variants: product.variants || [],
-                    sizes: product.variants.map(v => v.attributes.size)
+                    sizes: product.variants?.map(v => v.attributes?.size).filter(Boolean) || []
                     // sizes: ["38", "40", "42", "44", "46"] // default sizes, can modify per product
                 }));
                 renderProducts();
@@ -341,7 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openCheckout() { checkoutModal.style.display = 'flex'; updateCheckoutSummary(); }
     const districtSelect = document.getElementById('district');
-    districtSelect.addEventListener('change', updateCheckoutSummary);
+    if (districtSelect) {
+        districtSelect.addEventListener('change', updateCheckoutSummary);
+    }
     closeModal.onclick = () => checkoutModal.style.display = 'none';
 
     function updateCheckoutSummary() {
@@ -353,10 +355,37 @@ document.addEventListener('DOMContentLoaded', () => {
             checkoutProducts.innerHTML += `<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;"><span>${item.name} (${item.size}) × ${item.qty}</span><span>৳ ${item.price * item.qty}</span></div>`;
         });
         const district = document.getElementById('district').value;
-        let delivery = 0; if (district === 'dhaka') delivery = 60; else if (district === 'chattogram') delivery = 120; else if (district) delivery = 150;
+        let delivery = 0;
+        if (district) {
+            delivery = district === 'dhaka' ? 60 : 130;
+        }
         document.getElementById('checkout-subtotal').innerText = subtotal;
         document.getElementById('checkout-delivery').innerText = delivery;
         document.getElementById('checkout-total').innerText = subtotal + delivery;
+    }
+
+    // ================= FETCH DISTRICT LIST =================
+    async function fetchDistricts() {
+        const districtSelect = document.getElementById('district');
+        if (!districtSelect) return;
+
+        try {
+            const res = await fetch('https://bdapi.vercel.app/api/v.1/district');
+            const data = await res.json();
+
+            if (data.status === 200 && data.success) {
+                districtSelect.innerHTML = '<option value="">Select District</option>';
+
+                data.data.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.name.toLowerCase();  // important for dhaka check
+                    option.textContent = district.bn_name;
+                    districtSelect.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.log('Error fetching district:', error);
+        }
     }
 
     // ================= PLACE ORDER =================
@@ -422,4 +451,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCart();
     fetchCategories();
     fetchProducts();
+    fetchDistricts();
 });
