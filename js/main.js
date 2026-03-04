@@ -1,29 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.ENV && window.ENV.FACEBOOK_DOMAIN_VERIFICATION) {
-        const fbMetaTag = document.querySelector(
-            'meta[name="facebook-domain-verification"]'
+if (window.ENV && window.ENV.FACEBOOK_DOMAIN_VERIFICATION) {
+    const fbMetaTag = document.querySelector(
+        'meta[name="facebook-domain-verification"]'
+    );
+    console.log("fbMetaTag: ", fbMetaTag);
+    if (fbMetaTag) {
+        fbMetaTag.setAttribute(
+            'content',
+            window.ENV.FACEBOOK_DOMAIN_VERIFICATION
         );
-        console.log("fbMetaTag: ", fbMetaTag);
-        if (fbMetaTag) {
-            fbMetaTag.setAttribute(
-                'content',
-                window.ENV.FACEBOOK_DOMAIN_VERIFICATION
-            );
-        } else {
-            const meta = document.createElement('meta');
-            meta.setAttribute('name', 'facebook-domain-verification');
-            meta.setAttribute(
-                'content',
-                window.ENV.FACEBOOK_DOMAIN_VERIFICATION
-            );
-            document.head.appendChild(meta);
-        }
+    } else {
+        const meta = document.createElement('meta');
+        meta.setAttribute('name', 'facebook-domain-verification');
+        meta.setAttribute(
+            'content',
+            window.ENV.FACEBOOK_DOMAIN_VERIFICATION
+        );
+        document.head.appendChild(meta);
     }
+}
 
+document.addEventListener('DOMContentLoaded', () => {
     // ================= DATA =================
     let productsData = [];
     let selectedCategory = null;
-    let cart = JSON.parse(localStorage.getItem('cart')) || []; 
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     const productsContainer = document.getElementById('products');
     const categoryContainer = document.getElementById('category-container');
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     image: product.images?.length > 0 ? product.images[0].image : "image/no-image.jpg",
                     images: product.images?.map(img => img.image) || [],
                     description: product.short_description || "",
-                    sizes: ["38","40","42","44","46"] // default sizes, can modify per product
+                    sizes: ["38", "40", "42", "44", "46"] // default sizes, can modify per product
                 }));
                 renderProducts();
             }
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function openProductDetail(product) {
         // View Content Event Tracking
         FacebookViewContentEvent(product.name, product.price, product.id);
-        
+
         mainDetailImg.src = product.image;
         detailThumbs.innerHTML = '';
         const images = product.images || [product.image];
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         detailPrice.textContent = product.price;
         detailDescription.textContent = product.description || 'No description available.';
         detailSize.innerHTML = '';
-        (product.sizes || ["S","M","L","XL"]).forEach(s => {
+        (product.sizes || ["S", "M", "L", "XL"]).forEach(s => {
             const box = document.createElement('div');
             box.className = 'size-box';
             box.textContent = s;
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selected) { alert("Please select a size!"); return; }
         const size = selected.textContent;
         const existing = cart.find(c => c.id === product.id && c.size === size);
-        if (existing) { existing.qty++; } 
+        if (existing) { existing.qty++; }
         else { cart.push({ ...product, qty: 1, size }); }
         updateCart();
         productDetailModal.style.display = 'none';
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedSizeForPopup = null;
         const optionsContainer = document.getElementById('size-options');
         optionsContainer.innerHTML = '';
-        (product.sizes || ["S","M","L","XL"]).forEach(size => {
+        (product.sizes || ["S", "M", "L", "XL"]).forEach(size => {
             const box = document.createElement('div');
             box.className = 'size-box';
             box.textContent = size;
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selectedSizeForPopup) { alert("Please select a size!"); return; }
         const { product, action } = currentProductForSize;
         const existing = cart.find(c => c.id === product.id && c.size === selectedSizeForPopup);
-        if (existing) existing.qty++; else cart.push({ ...product, qty:1, size: selectedSizeForPopup });
+        if (existing) existing.qty++; else cart.push({ ...product, qty: 1, size: selectedSizeForPopup });
         updateCart();
         sizePopup.style.display = 'none';
         if (action === 'buyNow') openCheckout();
@@ -295,23 +295,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="item-name">${item.name}</p>
                     <div class="item-bottom">
                         <div class="item-options">
-                            ${ item.sizes?.length > 0
-                            ? `<select onchange="changeSize(${item.id}, this.value)">
-                                ${item.sizes.map(size => `<option value="${size}" ${size === item.size ? 'selected':''}>${size}</option>`).join('')}
+                            ${item.sizes?.length > 0
+                    ? `<select onchange="changeSize(${item.id}, this.value)">
+                                ${item.sizes.map(size => `<option value="${size}" ${size === item.size ? 'selected' : ''}>${size}</option>`).join('')}
                             </select>` : ''}
                         </div>
                         <div class="qty-control">
-                            <button onclick="changeQty(${item.id}, '${item.size||''}', -1)">−</button>
+                            <button onclick="changeQty(${item.id}, '${item.size || ''}', -1)">−</button>
                             <div class="qty-count">${item.qty}</div>
-                            <button onclick="changeQty(${item.id}, '${item.size||''}', 1)">+</button>
+                            <button onclick="changeQty(${item.id}, '${item.size || ''}', 1)">+</button>
                         </div>
-                        <button class="remove-btn" onclick="removeItem(${item.id}, '${item.size||''}')">✖</button>
+                        <button class="remove-btn" onclick="removeItem(${item.id}, '${item.size || ''}')">✖</button>
                     </div>
                 </div>
             </div>`;
         });
         const footer = document.querySelector('.cart-footer');
-        const cartTotal = cart.reduce((t,i)=> t+i.price*i.qty,0);
+        const cartTotal = cart.reduce((t, i) => t + i.price * i.qty, 0);
         footer.innerHTML = `<div class="subtotal-wrapper">
             <div class="subtotal-label">Subtotal</div>
             <div class="subtotal-amount">৳ <span id="subtotal">${cartTotal}</span></div>
@@ -326,33 +326,35 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
-        document.getElementById('cart-count').textContent = cart.reduce((t,i)=>t+i.qty,0);
+        document.getElementById('cart-count').textContent = cart.reduce((t, i) => t + i.qty, 0);
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    window.changeSize = (id,newSize) => { const item = cart.find(c=>c.id===id); if(item){item.size=newSize;updateCart();updateCheckoutSummary();}};
-    window.changeQty = (id,size,delta)=>{const item=cart.find(c=>c.id===id&&(c.size||'')===size); if(!item) return; item.qty+=delta; if(item.qty<1)item.qty=1;updateCart();};
-    window.removeItem = (id,size)=>{cart=cart.filter(c=>!(c.id===id&&(c.size||'')===size)); updateCart();};
+    window.changeSize = (id, newSize) => { const item = cart.find(c => c.id === id); if (item) { item.size = newSize; updateCart(); updateCheckoutSummary(); } };
+    window.changeQty = (id, size, delta) => { const item = cart.find(c => c.id === id && (c.size || '') === size); if (!item) return; item.qty += delta; if (item.qty < 1) item.qty = 1; updateCart(); };
+    window.removeItem = (id, size) => { cart = cart.filter(c => !(c.id === id && (c.size || '') === size)); updateCart(); };
 
-    cartIcon.onclick=()=>cartDrawer.classList.add('open');
-    closeCart.onclick=()=>cartDrawer.classList.remove('open');
+    cartIcon.onclick = () => cartDrawer.classList.add('open');
+    closeCart.onclick = () => cartDrawer.classList.remove('open');
 
-    function openCheckout() {checkoutModal.style.display='flex';updateCheckoutSummary();}
+    function openCheckout() { checkoutModal.style.display = 'flex'; updateCheckoutSummary(); }
     const districtSelect = document.getElementById('district');
     districtSelect.addEventListener('change', updateCheckoutSummary);
-    closeModal.onclick=()=>checkoutModal.style.display='none';
+    closeModal.onclick = () => checkoutModal.style.display = 'none';
 
     function updateCheckoutSummary() {
-        const checkoutProducts=document.getElementById('checkout-products');
-        checkoutProducts.innerHTML='';
-        let subtotal=0;
-        cart.forEach(item=>{subtotal+=item.price*item.qty;
-            checkoutProducts.innerHTML+=`<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;"><span>${item.name} (${item.size}) × ${item.qty}</span><span>৳ ${item.price*item.qty}</span></div>`;});
-        const district=document.getElementById('district').value;
-        let delivery=0; if(district==='dhaka') delivery=60; else if(district==='chattogram') delivery=120; else if(district) delivery=150;
-        document.getElementById('checkout-subtotal').innerText=subtotal;
-        document.getElementById('checkout-delivery').innerText=delivery;
-        document.getElementById('checkout-total').innerText=subtotal+delivery;
+        const checkoutProducts = document.getElementById('checkout-products');
+        checkoutProducts.innerHTML = '';
+        let subtotal = 0;
+        cart.forEach(item => {
+            subtotal += item.price * item.qty;
+            checkoutProducts.innerHTML += `<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;"><span>${item.name} (${item.size}) × ${item.qty}</span><span>৳ ${item.price * item.qty}</span></div>`;
+        });
+        const district = document.getElementById('district').value;
+        let delivery = 0; if (district === 'dhaka') delivery = 60; else if (district === 'chattogram') delivery = 120; else if (district) delivery = 150;
+        document.getElementById('checkout-subtotal').innerText = subtotal;
+        document.getElementById('checkout-delivery').innerText = delivery;
+        document.getElementById('checkout-total').innerText = subtotal + delivery;
     }
 
     // ================= PLACE ORDER =================
@@ -361,22 +363,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const phone = document.getElementById('phone').value.trim();
         const address = document.getElementById('address').value.trim();
         const district = document.getElementById('district').value;
-        if(!name||!phone||!address||!district){alert("All fields are required!");return;}
-        if(cart.length===0){alert("Cart is empty!");return;}
+        if (!name || !phone || !address || !district) { alert("All fields are required!"); return; }
+        if (cart.length === 0) { alert("Cart is empty!"); return; }
 
-        const items = cart.map(i=>({product_id:i.id, quantity:i.qty, size:i.size}));
-        const payload = {name, phone, address, district, items};
+        const items = cart.map(i => ({ product_id: i.id, quantity: i.qty, size: i.size }));
+        const payload = { name, phone, address, district, items };
 
         try {
-            const res = await fetch("https://api.safaworldbd.com/api/order/create/",{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(payload)
+            const res = await fetch("https://api.safaworldbd.com/api/order/create/", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
             const result = await res.json();
-            if(result.status){alert("Order placed! ID: "+result.order_id); cart=[]; updateCart(); checkoutModal.style.display='none';}
-            else alert("Order failed: "+result.message);
-        } catch(err){console.error("Order error:",err);alert("Order error!");}
+            if (result.status) { alert("Order placed! ID: " + result.order_id); cart = []; updateCart(); checkoutModal.style.display = 'none'; }
+            else alert("Order failed: " + result.message);
+        } catch (err) { console.error("Order error:", err); alert("Order error!"); }
     }
 
     // ================= INITIAL LOAD =================
