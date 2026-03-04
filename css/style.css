@@ -242,8 +242,10 @@ button:hover {
 /* ================= PRODUCTS ================= */
 .products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 300px)); /* max width 300px */
-  justify-content: center; /* center cards if less than full row */
+  grid-template-columns: repeat(auto-fit, minmax(230px, 300px));
+  /* max width 300px */
+  justify-content: center;
+  /* center cards if less than full row */
   gap: 15px;
   padding: 15px;
   background: rgba(0, 0, 0, 0.5);
@@ -601,17 +603,22 @@ footer a:hover {
     padding: 10px 2%;
     /* কম side padding */
   }
-
+  
   .product-card {
     padding: 6px;
-    /* আগে 12 ছিল */
     border-radius: 12px;
+    overflow: hidden;
   }
 
   .product-card img {
+    width: 100%;
     height: 200px;
-    /* একটু বড় feel */
-    padding: 4px;
+    /* ফিক্সড height */
+    object-fit: cover;
+    /* ছবিকে crop করবে */
+    object-position: center;
+    /* মাঝখানে রাখবে */
+    display: block;
   }
 
   .product-card h4 {
