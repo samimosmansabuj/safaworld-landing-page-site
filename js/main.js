@@ -1,23 +1,23 @@
-if (window.ENV && window.ENV.FACEBOOK_DOMAIN_VERIFICATION) {
-    const fbMetaTag = document.querySelector(
-        'meta[name="facebook-domain-verification"]'
-    );
-    console.log("fbMetaTag: ", fbMetaTag);
-    if (fbMetaTag) {
-        fbMetaTag.setAttribute(
-            'content',
-            window.ENV.FACEBOOK_DOMAIN_VERIFICATION
-        );
-    } else {
-        const meta = document.createElement('meta');
-        meta.setAttribute('name', 'facebook-domain-verification');
-        meta.setAttribute(
-            'content',
-            window.ENV.FACEBOOK_DOMAIN_VERIFICATION
-        );
-        document.head.appendChild(meta);
-    }
-}
+// if (window.ENV && window.ENV.FACEBOOK_DOMAIN_VERIFICATION) {
+//     const fbMetaTag = document.querySelector(
+//         'meta[name="facebook-domain-verification"]'
+//     );
+//     console.log("fbMetaTag: ", fbMetaTag);
+//     if (fbMetaTag) {
+//         fbMetaTag.setAttribute(
+//             'content',
+//             window.ENV.FACEBOOK_DOMAIN_VERIFICATION
+//         );
+//     } else {
+//         const meta = document.createElement('meta');
+//         meta.setAttribute('name', 'facebook-domain-verification');
+//         meta.setAttribute(
+//             'content',
+//             window.ENV.FACEBOOK_DOMAIN_VERIFICATION
+//         );
+//         document.head.appendChild(meta);
+//     }
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
     // ================= DATA =================
