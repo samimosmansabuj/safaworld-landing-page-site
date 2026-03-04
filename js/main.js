@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const fbMetaTag = document.querySelector(
             'meta[name="facebook-domain-verification"]'
         );
-        console.log("fbMetaTag: ", fbMetaTag);
         if (fbMetaTag) {
             fbMetaTag.setAttribute(
                 'content',
