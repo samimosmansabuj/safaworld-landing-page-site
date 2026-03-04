@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================= FETCH PRODUCTS =================
     async function fetchProducts() {
         try {
-            let url = `${ENV.API_BASE_URL}/api/products/`;
-            if (selectedCategory) url += `?category=${selectedCategory}`;
+            let url = `${ENV.API_BASE_URL}/api/products/?page_size=${ENV.PRODUCT_PER_PAGE}&ordering=${ENV.PRODUCT_ORDERING}`;
+            if (selectedCategory) url += `&category=${selectedCategory}`;
 
             const res = await fetch(url);
             const result = await res.json();
