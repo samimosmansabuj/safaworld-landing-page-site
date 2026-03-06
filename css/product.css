@@ -100,7 +100,7 @@
     font-size: 14px;
 }
 .detail-options {
-    margin-top: 15px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 10px;

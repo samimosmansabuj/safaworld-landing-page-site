@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 productsData = result.data.map(product => ({
                     id: product.id,
                     name: product.name,
+                    main_price: product.price || product.price,
                     price: product.discount_price || product.price,
                     category: product.category?.id || null,
                     image: product.images?.length > 0 ? product.images[0].image : "image/no-image.jpg",
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <img src="${p.image}" alt="${p.name}">
                 <h4>${p.name}</h4>
-                <p>৳ ${p.price}</p>
+                <p>৳ <del><span id="main-price" style="color: #ff0000; font-size: 15px;">${p.main_price}</span></del> ${p.price}</p>
                 <button onclick="addToCart(${p.id})">Add to Cart</button>
                 <button onclick="buyNow(${p.id})">Buy Now</button>
             `;
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img id="main-detail-img" style="width:100%;border-radius:15px;margin-bottom:10px;">
                     <div id="detail-thumbs" style="display:flex;gap:10px;overflow-x:auto;"></div>
                 </div>
-                <p><strong>Price:</strong> ৳ <span id="detail-price"></span></p>
+                <p><strong>Price:</strong> ৳ <del><span id="main-price" style="color: #ff0000; font-size: 19px;"></span></del> <span id="detail-price"></span></p>
                 <p id="detail-description"></p>
                 <div id="detail-size"></div>
                 <div style="margin-top:15px;">
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailName = document.getElementById('detail-name');
     const detailDescription = document.getElementById('detail-description');
     const detailSize = document.getElementById('detail-size');
+    const mainPrice = document.getElementById('main-price');
     const detailPrice = document.getElementById('detail-price');
     const detailAddToCart = document.getElementById('detail-add-to-cart');
     const detailBuyNow = document.getElementById('detail-buy-now');
@@ -190,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         detailName.textContent = product.name;
+        mainPrice.textContent = product.main_price;
         detailPrice.textContent = product.price;
         detailDescription.textContent = product.description || 'No description available.';
         detailSize.innerHTML = '';
