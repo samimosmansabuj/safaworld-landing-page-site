@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="stylesheet" href="css/cart-item.css?v=3">
   <link rel="stylesheet" href="css/checkout.css?v=3">
+  <link rel="stylesheet" href="css/product.css?v=3">
 
   <script src="env.js?v=3"></script>
 
@@ -20,7 +21,7 @@
     rel="stylesheet">
 
   <!-- Meta Pixel Code -->
-  <script>
+  <!-- <script>
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
         n.callMethod ?
@@ -36,7 +37,7 @@
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1226404769563639&ev=PageView&noscript=1" /></noscript>
+      src="https://www.facebook.com/tr?id=1226404769563639&ev=PageView&noscript=1" /></noscript> -->
   <!-- End Meta Pixel Code -->
 </head>
 
@@ -187,17 +188,20 @@
         <img id="main-detail-img" src="" alt="Product Image">
         <div class="detail-thumbs" id="detail-thumbs"></div>
       </div>
-      <h3 id="detail-name"></h3>
-      <p id="detail-description"></p>
-      <div class="detail-options">
-        <label for="detail-size">Select Size:</label>
-        <div id="detail-size"></div>
+      <div>
+        <h3 id="detail-name"></h3>
+        <p id="detail-description"></p>
+        <div class="detail-options">
+          <label for="detail-size">Size:</label>
+          <div id="detail-size"></div>
+        </div>
+        <p class="detail-price">৳ <span id="detail-price"></span></p>
+        <div class="detail-buttons">
+          <button id="detail-add-to-cart">Add to Cart</button>
+          <button id="detail-buy-now">Buy Now</button>
+        </div>
       </div>
-      <p class="detail-price">৳ <span id="detail-price"></span></p>
-      <div class="detail-buttons">
-        <button id="detail-add-to-cart">Add to Cart</button>
-        <button id="detail-buy-now">Buy Now</button>
-      </div>
+
     </div>
   </div>
 

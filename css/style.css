@@ -284,132 +284,10 @@ button:hover {
   font-weight: 700;
 }
 
-/* product-detail-modal{ */
-.product-detail-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(4px);
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
-}
 
-.detail-content {
-  background: #111;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 700px;
-  color: #fff;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
 
-#close-detail-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 22px;
-  cursor: pointer;
-}
 
-.detail-images {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-#main-detail-img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
-
-.detail-thumbs {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-}
-
-.detail-thumbs img {
-  width: 60px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 2px solid #555;
-  transition: 0.3s;
-}
-
-.detail-thumbs img:hover {
-  border-color: #C6A85C;
-}
-
-.detail-options {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* ================= PRODUCT DETAIL SIZE BOXES ================= */
-#detail-size {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.size-box {
-  padding: 8px 15px;
-  border: 2px solid #d4af37;
-  /* button color outline */
-  border-radius: 6px;
-  cursor: pointer;
-  user-select: none;
-  transition: all 0.2s;
-  font-weight: 500;
-  text-align: center;
-}
-
-.size-box:hover {
-  background-color: #d4af37;
-  /* hover color */
-  color: white;
-}
-
-.size-box.selected {
-  background-color: #d4af37;
-  /* selected color */
-  color: white;
-}
-
-.detail-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.detail-buttons button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  background: #C6A85C;
-  color: #fff;
-  transition: 0.3s;
-}
-
-.detail-buttons button:hover {
-  background: #bfa258;
-}
 
 @media(max-width:480px) {
   #main-detail-img {
@@ -650,22 +528,7 @@ footer a:hover {
 
 
 
-  /* ================= PRODUCT DETAIL ================= */
-  .detail-content {
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 20px;
-    border-radius: 20px;
-  }
-
-  .detail-modal {
-    padding: 20px;
-  }
-
-  #main-detail-img {
-    max-height: 280px;
-  }
+  
 
   /* ================= MOBILE PRODUCT DETAIL IMPROVEMENTS ================= */
   @media(max-width:480px) {
